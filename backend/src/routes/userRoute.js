@@ -12,4 +12,4 @@ router.get('/profile',verifyUser,function(req,res){
 })
 
 router.post('/logout',signOut)
-export default router;
+export default router;  
