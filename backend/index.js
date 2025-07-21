@@ -1,7 +1,9 @@
 
 import express from "express";
+import cors from 'cors'
 import dbConnection from "./src/config/dbConfig.js";
 import userRouter from './src/routes/userRoute.js';
+import cookieParser from "cookie-parser";
 dbConnection()
 const app = express();
 
@@ -14,7 +16,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
+app.use(cookieParser());
 console.log("Initilizing routes");
 app.use('/user', userRouter);
 

@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Card, Form, Input } from "@heroui/react";
+import { Button, Card, Form, Input, Spinner } from "@heroui/react";
+import { useSignnin, useSignup } from '@/core/hooks/useAuth';
+import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export const EyeSlashFilledIcon = (props: any) => {
     return (
@@ -60,29 +65,55 @@ export const EyeFilledIcon = (props: any) => {
         </svg>
     );
 };
+
 export const LoginFrom = () => {
+
+    const navigate = useNavigate();
     const [email, setEmail] = React.useState("");
-    const [password,setPassword]=useState("")
-    const [submitted, setSubmitted] = useState<{ [k: string]: FormDataEntryValue } | null>(null);
+    const [password, setPassword] = useState("")
     const [isVisible, setIsVisible] = useState(false);
+    const [errors, setErrors] = useState("");
+    const [success, setSuccess] = useState("")
+    const { mutate: signinUser, isPending } = useSignnin();
 
     const toggleVisibility = () => setIsVisible(!isVisible);
-    console.log(email)
-    console.log(password)
 
-    const onSubmit = (e: any) => {
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrors(""),
+            setSuccess("")
 
-        const data = Object.fromEntries(new FormData(e.currentTarget));
+        signinUser(
+            { email, password },
+            {
+                onSuccess: () => {
+                    console.log("Login success");
+                    setSuccess("Login successful ✅")
+                    navigate("/pricing");
+                },
+                onError: (err) => {
+                    const axiosError = err as AxiosError<{ message: string }>;
 
-        setSubmitted(data);
+                    if (axiosError.response?.data?.message) {
+                        setErrors(axiosError.response.data.message);
+                    } else {
+                        setErrors("Something went wrong.");
+                    }
+                }
+            },
 
-        
+        )
+
     };
+
+    if (isPending) {
+        return <Spinner />
+    }
     return (
 
         <Card >
-           
+
             <Form className="w-full p-4 space-y-4" onSubmit={onSubmit}>
                 <Input
                     isRequired
@@ -122,56 +153,90 @@ export const LoginFrom = () => {
                     type={isVisible ? "text" : "password"}
                     variant="bordered"
                     onValueChange={setPassword}
-                    
+
                 />
+                {/* ✅ Show error if any */}
+                {errors && <p className="text-red-500 text-sm">{errors}</p>}
+
+                {/* ✅ Optional success message */}
+                {success && <p className="text-green-600 text-sm">{success}</p>}
+                {/* {error && <p className='text-red-500 text-sm'> Something went worn try again later</p>} */}
+
 
                 <Button type="submit" variant="bordered">
                     Submit
                 </Button>
-                {submitted && (
-                    <div className="text-small text-default-500">
-                        You submitted: <code>{JSON.stringify(submitted)}</code>
-                    </div>
-                )}
+
             </Form>
         </Card>
     )
 }
 
+
+
 export const SignupFrom = () => {
     const [email, setEmail] = React.useState("");
-    const [password,setPassword]=useState("")
-    const [username,setUsername]=useState("")
-    const [submitted, setSubmitted] = useState<{ [k: string]: FormDataEntryValue } | null>(null);
+    const [password, setPassword] = useState("")
+    const [userName, setUsername] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState<string>("");
+
+    const [errors, setErrors] = useState("");
+    const [sucsess, setSucsess] = useState("");
     const [isVisible, setIsVisible] = useState(false);
+    const { mutate: signupUser, isPending } = useSignup();
 
     const toggleVisibility = () => setIsVisible(!isVisible);
-    console.log(email)
-    console.log(password)
+    const navigate = useNavigate()
 
-    const onSubmit = (e: any) => {
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrors("");
+        setSucsess("");
 
-        const data = Object.fromEntries(new FormData(e.currentTarget));
-
-        setSubmitted(data);
-
-        
+        signupUser(
+            {
+                userName,
+                email,
+                phoneNumber: Number(phoneNumber),
+                password
+            },
+            {
+                onSuccess: () => {
+                    console.log("Signup success");
+                    setSucsess("Signup successful ✅");
+                    navigate("/login");
+                },
+                onError: (err: any) => {
+                    const axiosError = err as AxiosError<{ message: string }>;
+                    if (axiosError.response?.data?.message) {
+                        setErrors(axiosError.response.data.message);
+                    } else {
+                        setErrors("Something went wrong.");
+                    }
+                },
+            }
+        );
     };
+
+
+    if (isPending) {
+        return <Spinner />;
+    }
+
     return (
 
         <Card >
-           
+
             <Form className="w-full p-4 space-y-4" onSubmit={onSubmit}>
-                 <Input
+                <Input
                     isRequired
-                    
+
                     label="Username"
                     labelPlacement="outside"
                     name="username"
                     placeholder="Enter your username"
                     type="text"
-                    value={username}
+                    value={userName}
                     onValueChange={setUsername}
                     variant="bordered"
                     className='w-full'
@@ -189,6 +254,20 @@ export const SignupFrom = () => {
                     variant="bordered"
                     className='w-full'
                 />
+                <Input
+                    isRequired
+                    errorMessage="Please enter a Phone number"
+                    label="Phone"
+                    labelPlacement="outside"
+                    name="phone"
+                    placeholder="Enter your Phone"
+                    type="tel" // Better for mobile & formatting
+                    value={phoneNumber}
+                    onValueChange={setPhoneNumber}
+                    variant="bordered"
+                    className="w-full"
+                />
+
 
                 <Input
                     className="w-full"
@@ -214,17 +293,18 @@ export const SignupFrom = () => {
                     type={isVisible ? "text" : "password"}
                     variant="bordered"
                     onValueChange={setPassword}
-                    
+
                 />
+                {/* ✅ Show error if any */}
+                {errors && <p className="text-red-500 text-sm">{errors}</p>}
+
+                {/* ✅ Optional success message */}
+                {sucsess && <p className="text-green-600 text-sm">{sucsess}</p>}
 
                 <Button type="submit" variant="bordered" className='hover:bg-green-600'>
                     Submit
                 </Button>
-                {submitted && (
-                    <div className="text-small text-default-500">
-                        You submitted: <code>{JSON.stringify(submitted)}</code>
-                    </div>
-                )}
+
             </Form>
         </Card>
     )

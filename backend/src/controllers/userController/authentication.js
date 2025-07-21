@@ -7,6 +7,7 @@ export async function signUp(req, res) {
     try {
         const { userName, email, password, phoneNumber } = req.body;
 
+        console.log("signin req.body:",req.body);
         
 
         if (!userName || !email || !password) {
