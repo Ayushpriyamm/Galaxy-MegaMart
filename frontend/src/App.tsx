@@ -9,26 +9,34 @@ import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import LoginPage from "./pages/login";
 import ProtectedRoutes from "./components/protectedRoutes";
-import Profile from "./pages/profile";
-
+import Profile from "./pages/userProfile/profile";
+import PersonalInfo from "./pages/userProfile/PersonalInfo";
+import Orders from "./pages/userProfile/Orders";
+import Payment from "./pages/userProfile/Payment";
+import PasswordManager from "./pages/userProfile/PasswordManager";
 
 function App() {
-  
+
   return (
 
-      <Routes>
-        <Route element={<IndexPage />} path="/" />
-        <Route element={<DocsPage />} path="/docs" />
-        <Route element={<PricingPage />} path="/pricing" />
-        <Route element={<BlogPage />} path="/blog" />
-        <Route element={<AboutPage />} path="/about" />
-        <Route element={<LoginPage />} path="/login" />
-        <Route element={<ProtectedRoutes/>}>
-          <Route element={<Profile />} path="/profile" />
+    <Routes>
+      <Route element={<IndexPage />} path="/" />
+      <Route element={<DocsPage />} path="/docs" />
+      <Route element={<PricingPage />} path="/pricing" />
+      <Route element={<BlogPage />} path="/blog" />
+      <Route element={<AboutPage />} path="/about" />
+      <Route element={<LoginPage />} path="/login" />
+      <Route element={<ProtectedRoutes />}>
+        <Route path="/profile" element={<Profile />}  >
+          <Route path="personal" element={<PersonalInfo />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="payment" element={<Payment />} />
+          <Route path="password" element={<PasswordManager />} />
         </Route>
-      </Routes>
-      
-   
+      </Route>
+    </Routes>
+
+
 
   );
 }
