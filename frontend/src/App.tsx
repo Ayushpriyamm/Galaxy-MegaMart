@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 
 
 import IndexPage from "@/pages/index";
@@ -8,13 +8,14 @@ import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import LoginPage from "./pages/login";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ProtectedRoutes from "./components/protectedRoutes";
+import Profile from "./pages/profile";
+
 
 function App() {
-  const queryClient=new QueryClient();
+  
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* The rest of your application */}
+
       <Routes>
         <Route element={<IndexPage />} path="/" />
         <Route element={<DocsPage />} path="/docs" />
@@ -22,9 +23,12 @@ function App() {
         <Route element={<BlogPage />} path="/blog" />
         <Route element={<AboutPage />} path="/about" />
         <Route element={<LoginPage />} path="/login" />
+        <Route element={<ProtectedRoutes/>}>
+          <Route element={<Profile />} path="/profile" />
+        </Route>
       </Routes>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+      
+   
 
   );
 }

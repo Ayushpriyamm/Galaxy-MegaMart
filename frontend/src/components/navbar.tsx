@@ -2,6 +2,8 @@ import { Button } from "@heroui/button";
 import { Kbd } from "@heroui/kbd";
 import { Link } from "@heroui/link";
 import { Input } from "@heroui/input";
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Navbar as HeroUINavbar,
   NavbarBrand,
@@ -13,18 +15,21 @@ import {
 } from "@heroui/navbar";
 import { link as linkStyles } from "@heroui/theme";
 import clsx from "clsx";
-
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-
-  
-
-  SearchIcon,
-} from "@/components/icons";
+import { SearchIcon } from "@/components/icons";
 import { Logo } from "@/components/icons";
+import { RootState } from "@/app/store";
+import { useSignout } from "@/core/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { clearUser } from "@/features/user/userSlice";
+import { Spinner } from "@heroui/react";
 
 export const Navbar = () => {
+  const { currentUser } = useSelector((state: RootState) => state.user)
+  const { mutate: signoutUser, isPending } = useSignout()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const searchInput = (
     <Input
       aria-label="Search"
@@ -45,6 +50,26 @@ export const Navbar = () => {
       type="search"
     />
   );
+
+  const handleLogout = () => {
+    signoutUser(
+      undefined,
+      {
+        onSuccess: () => {
+          dispatch(clearUser());
+          navigate("/login");
+        },
+        onError: (error) => {
+          console.error("Logout failed", error);
+          // you could show a toast here
+        }
+      }
+    )
+  }
+
+  if (isPending) {
+    return <Spinner />
+  }
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -86,15 +111,18 @@ export const Navbar = () => {
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="hidden md:flex">
-          <Button
-            as={Link}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.login}
-
-            variant="flat"
-          >
-            Login/Signup
-          </Button>
+          {currentUser ? (
+            <>
+              <div>Hey {currentUser.userName}</div>
+              <Button onPress={handleLogout} >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Button as={Link} href={siteConfig.links.login} variant="flat">
+              Login/Signup
+            </Button>
+          )}
         </NavbarItem>
       </NavbarContent>
 

@@ -3,6 +3,9 @@ import { Button, Card, Form, Input, Spinner } from "@heroui/react";
 import { useSignnin, useSignup } from '@/core/hooks/useAuth';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { setCurrentUser } from '@/features/user/userSlice';
+import { useDispatch } from 'react-redux';
+
 
 
 
@@ -69,6 +72,7 @@ export const EyeFilledIcon = (props: any) => {
 export const LoginFrom = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = useState("")
     const [isVisible, setIsVisible] = useState(false);
@@ -87,9 +91,10 @@ export const LoginFrom = () => {
         signinUser(
             { email, password },
             {
-                onSuccess: () => {
+                onSuccess: (response) => {
                     console.log("Login success");
                     setSuccess("Login successful ✅")
+                    dispatch(setCurrentUser(response.data.data))
                     navigate("/pricing");
                 },
                 onError: (err) => {
@@ -172,8 +177,6 @@ export const LoginFrom = () => {
     )
 }
 
-
-
 export const SignupFrom = () => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = useState("")
@@ -187,11 +190,18 @@ export const SignupFrom = () => {
 
     const toggleVisibility = () => setIsVisible(!isVisible);
     const navigate = useNavigate()
+    const dispatch = useDispatch();
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setErrors("");
         setSucsess("");
+
+
+        if (!/^\d{10}$/.test(phoneNumber)) {
+            setErrors("Phone number must be 10 digits.");
+            return;
+        }
 
         signupUser(
             {
@@ -201,10 +211,12 @@ export const SignupFrom = () => {
                 password
             },
             {
-                onSuccess: () => {
-                    console.log("Signup success");
+
+                onSuccess: (response) => {
+                    console.log("Signup success", response);
+                    dispatch(setCurrentUser(response.data.data)); // Set the user in Redux
                     setSucsess("Signup successful ✅");
-                    navigate("/login");
+                    navigate("/pricing"); // Or /profile, or wherever
                 },
                 onError: (err: any) => {
                     const axiosError = err as AxiosError<{ message: string }>;
@@ -266,6 +278,15 @@ export const SignupFrom = () => {
                     onValueChange={setPhoneNumber}
                     variant="bordered"
                     className="w-full"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    onKeyDown={(e) => {
+                        // Prevent non-numeric characters
+                        const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab', 'Delete'];
+                        if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+                            e.preventDefault();
+                        }
+                    }}
                 />
 
 

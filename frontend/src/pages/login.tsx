@@ -1,6 +1,6 @@
 import { LoginFrom, SignupFrom } from '@/components/appComponents/LoginFrom'
 import DefaultLayout from '@/layouts/default'
-import login from '../../public/illustration/login.svg'
+import loginImage from '../../public//images/loginImage.png'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Logo } from '@/components/icons'
@@ -16,9 +16,13 @@ export default function Login() {
     }
     return (
         <DefaultLayout>
-            <section className=' flex flex-col sm:flex-row justify-center space-y-4 items-stretch '>
-                <div className=" relative w-full sm:w-1/3  sm:h-auto rounded-xl overflow-hidden group">
-                    <img src={login} alt="" className='hidden sm:block h-full w-full object-contain transition-all duration-500 absolute inset-0 ' />
+            <section className=' flex flex-col sm:flex-row justify-center space-y-4 items-center '>
+                <div className="  w-full sm:w-1/3  sm:h-auto rounded-xl overflow-hidden group">
+                    <img
+                        src={loginImage}
+                        alt=""
+                        className='hidden sm:block h-[400px] w-[400px] object-contain transition-all duration-500  '
+                    />
                     <div className="flex flex-col-reverse sm:hidden justify-center mx-auto">
                         <h1 className=' text-center text-2xl font-bold'>Galaxy <span className='text-green-600'>MegaMart</span></h1>
                         <div className="mx-auto">
