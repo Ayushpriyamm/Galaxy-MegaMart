@@ -40,7 +40,7 @@ const Profile = () => {
     }
     return (
         <DefaultLayout>
-            <section className="flex gap-2 ">
+            <section className="flex gap-2 items-center">
                 <div className="sidebar w-1/4 flex flex-col space-y-4 p-4 mx-auto  ">
                     <div className="w-full  flex justify-center ">
                         <Avatar
