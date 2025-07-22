@@ -7,8 +7,8 @@ export async function signUp(req, res) {
     try {
         const { userName, email, password, phoneNumber } = req.body;
 
-        console.log("signin req.body:",req.body);
-        
+        console.log("signin req.body:", req.body);
+
 
         if (!userName || !email || !password) {
             return res.status(400).json({
@@ -35,8 +35,18 @@ export async function signUp(req, res) {
         }
         )
 
-        return res.status(200).json({
+        const token = jwt.sign({ id: newUser._id,role:newUser.role }, process.env.JWT_SCERET, {
+            expiresIn: "1d"
+        });
+        res.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "Strict",
+            secure: process.env.NODE_ENV === "production"
+        });
+
+        return res.status(201).json({
             data: newUser,
+            token,  
             success: true,
             message: "User registered sceesfull",
 
@@ -86,7 +96,7 @@ export async function signin(req, res) {
 
         const token = jwt.sign(
             { id: userExisted._id, role: userExisted.role },
-            process.env.JWT_SCERET_SCERET,
+            process.env.JWT_SCERET,
             { expiresIn: '1d' })
 
 
