@@ -1,7 +1,7 @@
 import { Button } from "@heroui/button"
 import { Input } from "@heroui/input"
 import { Form } from "@heroui/react"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 import { EyeSlashFilledIcon, EyeFilledIcon } from "@/components/appComponents/LoginFrom"
 import { useState } from "react"
 import { Link } from "react-router-dom"
@@ -11,7 +11,7 @@ import { Link } from "react-router-dom"
 const PasswordManager = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const { currentUser } = useSelector((state: any) => state.user)
+  // const { currentUser } = useSelector((state: any) => state.user)
   const onSubmit = (e: any) => {
     e.preventDefault();
   }

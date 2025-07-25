@@ -14,6 +14,7 @@ import PersonalInfo from "./pages/userProfile/PersonalInfo";
 import Orders from "./pages/userProfile/Orders";
 import Payment from "./pages/userProfile/Payment";
 import PasswordManager from "./pages/userProfile/PasswordManager";
+import Shop from "./pages/shop";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
       <Route element={<BlogPage />} path="/blog" />
       <Route element={<AboutPage />} path="/about" />
       <Route element={<LoginPage />} path="/login" />
+      <Route element={<Shop/>} path="/shop"/>
       <Route element={<ProtectedRoutes />}>
         <Route path="/profile" element={<Profile />}  >
           <Route path="personal" element={<PersonalInfo />} />

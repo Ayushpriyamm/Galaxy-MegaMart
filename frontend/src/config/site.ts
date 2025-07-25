@@ -9,8 +9,8 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "Docs",
-      href: "/docs",
+      label: "Shop",
+      href: "/shop",
     },
     {
       label: "Pricing",
@@ -27,37 +27,22 @@ export const siteConfig = {
   ],
   navMenuItems: [
     {
-      label: "Profile",
-      href: "/profile",
+      label: "My Profile",
+      href: "/profile/personal",
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "My orders",
+      href: "/profile/orders",
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "Saved Payments",
+      href: "/profile/payment",
     },
     {
-      label: "Team",
-      href: "/team",
+      label: "Change Password",
+      href: "/profile/password",
     },
-    {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
-    },
+    
   ],
   links: {
     github: "https://github.com/frontio-ai/heroui",
