@@ -19,7 +19,6 @@ const categorySchema = new Schema({
     ],
 })
 
-productSchema.index({ description: 'text', name: 'text' });
 
 const category = mongoose.model('Categories', categorySchema);
 export default category;

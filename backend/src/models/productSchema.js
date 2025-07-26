@@ -1,43 +1,43 @@
-import mongoose,{ Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 
-const productSchema=new Schema({
-    name:{
-        type:String,
-        required:true,
+const productSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
     },
-    description:{
-        type:String,
-        required:true
+    description: {
+        type: String,
+        required: true
     },
-    originalPrice:{
-        type:Number,
-        required:true,
+    originalPrice: {
+        type: Number,
+        required: true,
     },
-    discountedPrice:{
-        type:Number
+    discountedPrice: {
+        type: Number
     },
-    quantityType:{
-        type:String,
-        enum:["kg","gm","ml",'L','units'],
-        required:true
+    quantityType: {
+        type: String,
+        enum: ["kg", "gm", "ml", 'L', 'units'],
+        required: true
     },
-    image:{
-        type:String,
-        default:"https://www.urbangroc.com/wp-content/uploads/2023/01/pngwing.com_.png.webp"
+    image: {
+        type: String,
+        default: "https://www.urbangroc.com/wp-content/uploads/2023/01/pngwing.com_.png.webp"
     },
-    category:{
-        type:mongoose.Types.ObjectId,
-        ref:"Categories",
+    category: {
+        type: mongoose.Types.ObjectId,
+        ref: "Categories",
     },
-    inStock:{
-        type:Number,
-        required:true
+    inStock: {
+        type: Number,
+        required: true
     },
-    rating:{
-        type:String,
+    rating: {
+        type: String,
     }
-},{timestamps:true})
-
-const product=mongoose.model('Product',productSchema);
+}, { timestamps: true })
+productSchema.index({ description: 'text', name: 'text' });
+const product = mongoose.model('Product', productSchema);
 export default product;
