@@ -2,19 +2,32 @@ import { Link } from "@heroui/link";
 import DefaultLayout from "@/layouts/default";
 import { Instagram, Facebook, Twitter, Linkedin, ShoppingBag } from 'lucide-react';
 import { Button } from "@heroui/button";
-import { Avatar, AvatarGroup, Image } from "@heroui/react";
+import { Avatar, AvatarGroup, Image, Spinner } from "@heroui/react";
 import HeroImage from '../../public/images/heroimage.png'
+import { useGetAllCategories } from "@/core/hooks/useCategory";
+import CategoriesImage from "@/components/appComponents/CategoriesImage";
 
 
 
 export default function IndexPage() {
 
+  const { data: allCategories, isLoading, isError } = useGetAllCategories();
+
+  console.log(allCategories);
+
+  const categories = allCategories?.data?.data
+
+  console.log("Category is ", categories)
 
 
+  if (isLoading || isError) {
+    return <div><Spinner /></div>
+  }
 
   return (
     <>
-      <section className="banner w-full bg-yellow-400 dark:bg-red-500 text-center p-2 flex justify-center sm:justify-between items-center overflow-hidden gap-4">
+      {/* ADVERTISEMENT BANNER */}
+      <section className="banner  w-full bg-yellow-400 dark:bg-red-500 text-center p-2 flex justify-center sm:justify-between items-center overflow-hidden gap-4">
         <div className="hidden sm:block underline">Call Us: +91 9876543210</div>
 
         <div className="w-full sm:w-[70%]  overflow-hidden whitespace-nowrap">
@@ -30,7 +43,7 @@ export default function IndexPage() {
       </section>
 
       <DefaultLayout>
-        <section className="flex flex-col items-center justify-center gap-4  ">
+        <section className="flex flex-col items-center justify-center gap-4 py-10  ">
           <div className="main-div flex flex-col sm:flex-row gap-4 items-center ">
             <div className="left-div flex flex-col sm:max-w-1/2 sm:px-10 justify-center  ">
               <div className="flex flex-col  space-y-6 py-4">
@@ -83,6 +96,25 @@ export default function IndexPage() {
               />
             </div>
 
+          </div>
+        </section>
+
+        <section className="py-10 flex flex-col justify-center ">
+          <p className="text-center ">Categories</p>
+          <h1 className=" text-center font-semibold text-5xl ">Featured <span className="text-green-500">Categories</span></h1>
+          <div className="p-4 flex flex-wrap gap-4 justify-between ">
+
+            {categories.map((category: any) => (
+              <>
+                <CategoriesImage
+                  key={category._id}
+                  image={category.image}
+                  name={category.name}
+                />
+                
+              </>
+
+            ))}
           </div>
         </section>
       </DefaultLayout>

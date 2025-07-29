@@ -14,3 +14,7 @@ export const PRODUCT_ROUTES = {
     getAllProducts: "/product/all-products",
     createProduct: "/product/create-product",
 }
+
+export const CATEGORY_ROUTES={
+    getAllCategories:'/category/get-categories',
+}
