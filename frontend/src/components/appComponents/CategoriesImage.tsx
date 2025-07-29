@@ -1,4 +1,4 @@
-import { Image, Skeleton, Spinner } from '@heroui/react';
+import { Image, Skeleton } from '@heroui/react';
 import { useState } from 'react';
 
 interface categoryData {

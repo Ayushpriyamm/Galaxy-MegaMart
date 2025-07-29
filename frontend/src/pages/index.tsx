@@ -6,6 +6,9 @@ import { Avatar, AvatarGroup, Image, Spinner } from "@heroui/react";
 import HeroImage from '../../public/images/heroimage.png'
 import { useGetAllCategories } from "@/core/hooks/useCategory";
 import CategoriesImage from "@/components/appComponents/CategoriesImage";
+import { CategoryDiscountCard } from "@/components/cards/CategoryDiscountCard";
+import Fruits from '../../public/images/fruits.png'
+import Vegetables from '../../public/images/vegetables.png'
 
 
 
@@ -111,11 +114,30 @@ export default function IndexPage() {
                   image={category.image}
                   name={category.name}
                 />
-                
+
               </>
 
             ))}
           </div>
+        </section>
+          
+        <section className="py-10 flex sm:flex-row flex-col justify-center gap-4">
+          <CategoryDiscountCard
+            discountValue={20}
+            title="Purely Fresh Vegetables"
+            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, exercitationem" 
+            link="#"
+            image={Vegetables}
+            bgColour="white"
+          />
+           <CategoryDiscountCard
+            discountValue={25}
+            title="Fresh Fruits, Pure Quantity"
+            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, exercitationem" 
+            link="#"
+            image={Fruits}
+            bgColour="yellow"
+          />
         </section>
       </DefaultLayout>
     </>
