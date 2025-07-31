@@ -34,8 +34,13 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
+    featured:{
+        type:Boolean,
+        default:false
+    },
     rating: {
         type: String,
+        default:"1"
     }
 }, { timestamps: true })
 productSchema.index({ description: 'text', name: 'text' });

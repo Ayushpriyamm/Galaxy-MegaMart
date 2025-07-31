@@ -9,22 +9,55 @@ import CategoriesImage from "@/components/appComponents/CategoriesImage";
 import { CategoryDiscountCard } from "@/components/cards/CategoryDiscountCard";
 import Fruits from '../../public/images/fruits.png'
 import Vegetables from '../../public/images/vegetables.png'
+import logo from '../../favicon.ico'
+import { motion } from 'framer-motion'
+import { useGetFeaturedProduct } from "@/core/hooks/useProduct";
+import { FeaturedProductCard } from "@/components/cards/FeaturedProductCard";
 
 
 
 export default function IndexPage() {
 
   const { data: allCategories, isLoading, isError } = useGetAllCategories();
-
-  console.log(allCategories);
+  const { data: featuredProducts, isPending } = useGetFeaturedProduct();
 
   const categories = allCategories?.data?.data
+  const featuredProduct = featuredProducts?.data?.data
+  console.log(featuredProduct)
 
-  console.log("Category is ", categories)
 
 
   if (isLoading || isError) {
-    return <div><Spinner /></div>
+    return (
+      <div className="bg-black min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <motion.img
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1, y: [0, -10, 0] }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            src={logo}
+            alt="Loading"
+            className=""
+          />
+          <motion.p
+            className="text-white mt-4 text-lg tracking-wider"
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            Loading...
+          </motion.p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -120,24 +153,42 @@ export default function IndexPage() {
             ))}
           </div>
         </section>
-          
+
         <section className="py-10 flex sm:flex-row flex-col justify-center gap-4">
           <CategoryDiscountCard
             discountValue={20}
             title="Purely Fresh Vegetables"
-            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, exercitationem" 
+            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, exercitationem"
             link="#"
             image={Vegetables}
             bgColour="white"
           />
-           <CategoryDiscountCard
+          <CategoryDiscountCard
             discountValue={25}
             title="Fresh Fruits, Pure Quantity"
-            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, exercitationem" 
+            description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, exercitationem"
             link="#"
             image={Fruits}
             bgColour="yellow"
           />
+        </section>
+
+        <section className="py-10 flex sm:flex-row flex-col justify-center gap-4">
+          <div className="grid sm:grid-cols-4 grid-cols-2 gap-3">
+            {featuredProduct.map((product: any) => (
+              <FeaturedProductCard
+                key={product._id}
+                image={product.image}
+                name={product.name}
+                category={product.category.name}
+                originalPrice={product.originalPrice}
+                discountedPrice={product.discountedPrice}
+                rating={product.rating}
+                quantityType={product.quantityType}
+
+              />
+            ))}
+          </div>
         </section>
       </DefaultLayout>
     </>

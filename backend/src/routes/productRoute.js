@@ -1,7 +1,7 @@
 import Router from 'express';
 import { createProduct, deleteProduct, getAllProduct, updateProduct } from '../controllers/productControllers/product.js';
 import { authorizedRoles, verifyUser } from '../middlewares/verifyUser.js';
-import { getProductById } from '../controllers/productControllers/productFetching.js';
+import { getFeaturedProduct, getProductById } from '../controllers/productControllers/productFetching.js';
 
 const router = Router();
 
@@ -31,10 +31,15 @@ router.delete(
 
 )
 
+router.get('/featured-products',getFeaturedProduct);
+
 router.get(
     '/:id',
     getProductById
 )
+
+
+
 
 
 

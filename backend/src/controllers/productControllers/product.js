@@ -11,6 +11,8 @@ export const createProduct = async (req, res) => {
             quantityType,
             image,
             category,
+            featured,
+            rating,
             inStock,
         } = req.body;
 
@@ -42,6 +44,8 @@ export const createProduct = async (req, res) => {
             quantityType,
             image,
             category,
+            featured,
+            rating,
             inStock,
         });
 
@@ -162,28 +166,28 @@ export const updateProduct = async (req, res) => {
     }
 }
 
-export const deleteProduct=async(req,res)=>{
+export const deleteProduct = async (req, res) => {
     try {
-        const id =req.params.id;
+        const id = req.params.id;
 
-        const product=await Product.findByIdAndDelete(id);
+        const product = await Product.findByIdAndDelete(id);
 
         if (!product) {
             return res.status(404).json({
-                success:false,
-                message:"Product not found"
+                success: false,
+                message: "Product not found"
             })
         }
         return res.status(200).json({
-            success:true,
-            message:"Product Deleted Successfully"
+            success: true,
+            message: "Product Deleted Successfully"
 
         })
     } catch (error) {
-        console.log('Error delteing product',error);
+        console.log('Error delteing product', error);
         return res.status(500).json({
-            success:false,
-            message:"Internal Server Error",
+            success: false,
+            message: "Internal Server Error",
         })
     }
 }

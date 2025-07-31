@@ -13,6 +13,7 @@ export const AUTH_ROUTES = {
 export const PRODUCT_ROUTES = {
     getAllProducts: "/product/all-products",
     createProduct: "/product/create-product",
+    getFeaturedProducts:'/product/featured-products'
 }
 
 export const CATEGORY_ROUTES={
