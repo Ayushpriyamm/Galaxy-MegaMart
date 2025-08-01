@@ -137,7 +137,7 @@ export default function IndexPage() {
 
         <section className="py-10 flex flex-col justify-center ">
           <p className="text-center ">Categories</p>
-          <h1 className=" text-center font-semibold text-5xl ">Featured <span className="text-green-500">Categories</span></h1>
+          <h1 className=" text-center font-semibold text-3xl sm:text-5xl ">Featured <span className="text-green-500">Categories</span></h1>
           <div className="p-4 flex flex-wrap gap-4 justify-between ">
 
             {categories.map((category: any) => (
@@ -173,24 +173,31 @@ export default function IndexPage() {
           />
         </section>
 
-        <section className="py-10 flex sm:flex-row flex-col justify-center gap-4">
-          <div className="grid sm:grid-cols-4 grid-cols-2 gap-3">
-            {featuredProduct.map((product: any) => (
-              <FeaturedProductCard
-                key={product._id}
-                image={product.image}
-                name={product.name}
-                category={product.category.name}
-                originalPrice={product.originalPrice}
-                discountedPrice={product.discountedPrice}
-                rating={product.rating}
-                quantityType={product.quantityType}
+        <section className="py-10 flex  flex-col justify-center gap-4">
+          <p className="text-center ">Products</p>
+          <h1 className=" text-center font-semibold text-3xl sm:text-5xl ">Featured <span className="text-green-500">Products</span></h1>
 
-              />
-            ))}
+          <div className="grid sm:grid-cols-4 grid-cols-2 gap-3">
+            {Array.isArray(featuredProduct) && featuredProduct.length > 0 ? (
+              featuredProduct.map((product: any) => (
+                <FeaturedProductCard
+                  key={product._id}
+                  image={product.image}
+                  name={product.name}
+                  category={product.category?.name || "Uncategorized"}
+                  originalPrice={product.originalPrice}
+                  discountedPrice={product.discountedPrice}
+                  rating={product.rating}
+                  quantityType={product.quantityType}
+                />
+              ))
+            ) : (
+              <p className="text-center col-span-full text-gray-500">No featured products found.</p>
+            )}
           </div>
+          <Button className=" w-max  mx-auto hover:bg-green-600">View All Products</Button>
         </section>
-      </DefaultLayout>
+      </DefaultLayout >
     </>
   );
 }

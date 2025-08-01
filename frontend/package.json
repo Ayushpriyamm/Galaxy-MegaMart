@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "host": "vite --host"
+
   },
   "dependencies": {
     "@heroui/button": "2.2.23",
