@@ -6,6 +6,7 @@ import { useSignout } from '@/core/hooks/useAuth';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { clearUser } from '@/features/user/userSlice';
 import { Avatar, AvatarIcon, Button, Spinner } from '@heroui/react';
+import { clearCart } from '@/features/cart/cartSlice';
 
 
 const Profile = () => {
@@ -23,6 +24,7 @@ const Profile = () => {
             undefined,
             {
                 onSuccess: () => {
+                    dispatch(clearCart());
                     dispatch(clearUser());
                     navigate("/login");
                 },

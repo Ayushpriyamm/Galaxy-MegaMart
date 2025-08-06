@@ -2,7 +2,7 @@ import { Link } from "@heroui/link";
 import DefaultLayout from "@/layouts/default";
 import { Instagram, Facebook, Twitter, Linkedin, ShoppingBag } from 'lucide-react';
 import { Button } from "@heroui/button";
-import { Avatar, AvatarGroup, Image, Spinner } from "@heroui/react";
+import { Avatar, AvatarGroup, Image } from "@heroui/react";
 import HeroImage from '../../public/images/heroimage.png'
 import { useGetAllCategories } from "@/core/hooks/useCategory";
 import CategoriesImage from "@/components/appComponents/CategoriesImage";
@@ -182,6 +182,7 @@ export default function IndexPage() {
               featuredProduct.map((product: any) => (
                 <FeaturedProductCard
                   key={product._id}
+                  id={product._id}
                   image={product.image}
                   name={product.name}
                   category={product.category?.name || "Uncategorized"}

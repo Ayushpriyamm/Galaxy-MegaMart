@@ -15,6 +15,7 @@ import Orders from "./pages/userProfile/Orders";
 import Payment from "./pages/userProfile/Payment";
 import PasswordManager from "./pages/userProfile/PasswordManager";
 import Shop from "./pages/shop";
+import Cart from "./pages/Cart";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="payment" element={<Payment />} />
           <Route path="password" element={<PasswordManager />} />
         </Route>
+        <Route path="/cart" element={<Cart/>}/>
       </Route>
     </Routes>
 
