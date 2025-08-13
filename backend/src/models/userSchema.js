@@ -15,6 +15,10 @@ const userSchema = new Schema({
         type: String,
         require: true,
     },
+    cart:{
+        type:mongoose.Types.ObjectId,
+        ref:'Cart'
+    },
     phoneNumber: {
         type: Number,
     },

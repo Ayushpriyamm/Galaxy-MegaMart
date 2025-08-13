@@ -6,6 +6,7 @@ import userRouter from './src/routes/userRoute.js';
 import productRouter from './src/routes/productRoute.js'
 import adminRoute from './src/routes/adminRoute.js';
 import categoryRoute from './src/routes/categoryRoute.js'
+import cartRouter from './src/routes/cartRoute.js';
 import cookieParser from "cookie-parser";
 dbConnection()
 const app = express();
@@ -24,7 +25,9 @@ console.log("Initilizing routes");
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 app.use('/category',categoryRoute)
+app.use('/cart',cartRouter);
 app.use('/dev', adminRoute);
+
 
 console.log("Routes Initilization completed");
 
